@@ -14,7 +14,8 @@
     "next": "15.3.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^3",
+    "autoprefixer": "^10",
+    "postcss": "^8"
   }
 }
