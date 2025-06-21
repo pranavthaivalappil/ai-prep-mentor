@@ -1,14 +1,16 @@
 import React from 'react'
 import { UserButton } from '@clerk/nextjs'
+import AddNewInterview from './_components/AddNewInterview'
 
 export default function Dashboard() {
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <UserButton />
+    <div className="p-10">
+      <h2 className='font-bold text-2xl'>Dashboard</h2>
+      <h2 className='text-gray-500'>Create a new AI mock interview</h2>
+      <div className='grid grid-cols-1 md:grid-cols-3 my-5 gap-4'>
+        <AddNewInterview/>
       </div>
-      <p className="text-gray-600">Welcome to your dashboard!</p>
+
     </div>
   )
 }

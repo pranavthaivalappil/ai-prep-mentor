@@ -1,36 +1,24 @@
-'use client'
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+"use client"
 import { UserButton } from '@clerk/nextjs'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-function Header() {
-    const pathname = usePathname();
-    useEffect(() => {
-        console.log(pathname);
-    }, [pathname]);
+export const Header = () => {
+    const path=usePathname()
+    useEffect(()=>{
+        console.log(path);
+    })
   return (
-    <div className='flex justify-between items-center p-4 bg-secondary shadow-sm'>
-        <Image src="/logo.svg" alt="logo" width={67} height={41} />
-        <ul className='hidden md:flex gap-4'>
-            <li className={`text-sm font-medium hover:text-primary transition-all hover:font-bold cursor-pointer ${pathname === '/dashboard'  ? 'text-primary font-bold' : ''}`}>
-                <Link href="/">Dashboard</Link>
-            </li>
-            <li className={`text-sm font-medium hover:text-primary transition-all hover:font-bold cursor-pointer ${pathname === '/dashboard/questions'  ? 'text-primary font-bold' : ''}`}>
-                <Link href="/">Questions</Link>
-            </li>
-            <li className={`text-sm font-medium hover:text-primary transition-all hover:font-bold cursor-pointer ${pathname === '/dashboard/upgrade'  ? 'text-primary font-bold' : ''}`}>
-                <Link href="/">Upgrade</Link>
-            </li>
-            <li className={`text-sm font-medium hover:text-primary transition-all hover:font-bold cursor-pointer ${pathname === '/dashboard/how'  ? 'text-primary font-bold' : ''}`}>
-                <Link href="/">How it works</Link>
-            </li>
+    <div className='flex px-4 py-2 items-center justify-between bg-secondary shadow-sm w-full'>
+        <Image src={'/logo.svg'} alt='logo' width={160} height={100}  style={{ width: "auto", height: "auto" }}   />
+        <ul className='hidden md:flex gap-6'>
+            <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path=='/dashboard' && 'text-primary font-bold'}`}>Dashboard</li>
+            <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path=='/dashboard/questions' && 'text-primary font-bold'}`}>Questions</li>
+            <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path=='/dashboard/upgrade' && 'text-primary font-bold'}`}>Upgrade</li>
+            <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path=='/dashboard/how' && 'text-primary font-bold'}`}>How its works?</li>
         </ul>
-        <UserButton />
+        <UserButton/>
     </div>
   )
 }
-
-export default Header

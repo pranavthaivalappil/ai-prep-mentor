@@ -24,7 +24,7 @@ module.exports = {
     				DEFAULT: 'hsl(var(--popover))',
     				foreground: 'hsl(var(--popover-foreground))'
     			},
-    							primary: {
+							primary: {
 					DEFAULT: '#3B82F6',
 					foreground: '#FFFFFF'
 				},
@@ -47,7 +47,7 @@ module.exports = {
     			border: 'hsl(var(--border))',
     			input: 'hsl(var(--input))',
     			ring: 'hsl(var(--ring))',
-    						chart: {
+						chart: {
 				'1': 'hsl(var(--chart-1))',
 				'2': 'hsl(var(--chart-2))',
 				'3': 'hsl(var(--chart-3))',
