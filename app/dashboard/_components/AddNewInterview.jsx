@@ -19,6 +19,7 @@ import moment from 'moment'
 import { useUser } from '@clerk/nextjs'
 import { db } from '../../../utils/db'
 import { MockInterview } from '../../../utils/schema'
+import { useRouter } from 'next/navigation'
 
 function AddNewInterview() {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,7 +29,7 @@ function AddNewInterview() {
   const [loading, setLoading] = useState(false)
   const [jsonResponse, setJsonResponse] = useState([])
   const {user} = useUser()
-
+  const router = useRouter()
   const onSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -64,7 +65,7 @@ function AddNewInterview() {
 
         console.log("inserted mock interview id: ",resp[0].mockId)
         console.log(resp)
-        
+        router.push(`/dashboard/interview/${resp[0].mockId}`)
         alert('Interview questions generated successfully!')
       } else {
         console.error('Failed to generate questions:', result.error)
