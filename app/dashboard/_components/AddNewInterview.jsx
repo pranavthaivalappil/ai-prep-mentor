@@ -13,18 +13,75 @@ import {
 import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
 import { Textarea } from "../../../components/ui/textarea"
+import { generateInterviewQuestions } from "../../../utils/gemini"
+import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment'
+import { useUser } from '@clerk/nextjs'
+import { db } from '../../../utils/db'
+import { MockInterview } from '../../../utils/schema'
 
 function AddNewInterview() {
   const [isOpen, setIsOpen] = useState(false)
   const [jobPosition, setJobPosition] = useState('')
   const [jobDescription, setJobDescription] = useState('')
   const [jobExperience, setJobExperience] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [jsonResponse, setJsonResponse] = useState([])
+  const {user} = useUser()
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    console.log('Form submitted:', { jobPosition, jobDescription, jobExperience })
-    // Here you'll add the tutorial's logic later
-    setIsOpen(false)
+    setLoading(true)
+    const InputPrompt = "Job Position: " + jobPosition + 
+        ", Job Description: " + jobDescription + 
+        ", Job Experience: " + jobExperience + " years"
+    
+    try {
+      console.log('Generating interview questions...')
+      
+      // Generate interview questions using Gemini API
+      const result = await generateInterviewQuestions(
+        jobPosition, 
+        jobDescription, 
+        jobExperience
+      );
+      
+      if (result.success) {
+        console.log('Generated Questions:', result.data)
+        setJsonResponse(result.data);
+
+        // Convert questions array to JSON string for database storage
+        const MockJsonResp = JSON.stringify(result.data);
+
+        const resp = await db.insert(MockInterview).values({
+          mockInterviewId: uuidv4(),
+          jobPosition: jobPosition,  
+          jobDescr: jobDescription,
+          jobLocation: jobExperience + " years experience", // Using experience as location for now
+          jsonMockResp: MockJsonResp,
+          createdBy: user?.primaryEmailAddress?.emailAddress
+        }).returning({mockId: MockInterview.mockInterviewId})
+
+        console.log("inserted mock interview id: ",resp[0].mockId)
+        console.log(resp)
+        
+        alert('Interview questions generated successfully!')
+      } else {
+        console.error('Failed to generate questions:', result.error)
+        alert('Failed to generate interview questions. Please try again.')
+      }
+      
+    } catch (error) {
+      console.error('Error:', error)
+      alert('An error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+      setIsOpen(false)
+      // Reset form
+      setJobPosition('')
+      setJobDescription('')
+      setJobExperience('')
+    }
   }
 
   return (
@@ -56,6 +113,8 @@ function AddNewInterview() {
                   placeholder="Ex. Full Stack Developer"
                   value={jobPosition}
                   onChange={(e) => setJobPosition(e.target.value)}
+                  required
+                  disabled={loading}
                 />
               </div>
               
@@ -69,6 +128,8 @@ function AddNewInterview() {
                   rows={3}
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
+                  required
+                  disabled={loading}
                 />
               </div>
               
@@ -80,17 +141,31 @@ function AddNewInterview() {
                   id="jobExperience"
                   type="number"
                   placeholder="Ex. 5"
+                  max={50}
+                  min={0}
                   value={jobExperience}
                   onChange={(e) => setJobExperience(e.target.value)}
+                  required
+                  disabled={loading}
                 />
               </div>
             </div>
             
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsOpen(false)}
+                disabled={loading}
+              >
                 Cancel
               </Button>
-              <Button type="submit">Start Interview</Button>
+              <Button 
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Generating AI Questions ...' : 'Start Interview'}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
