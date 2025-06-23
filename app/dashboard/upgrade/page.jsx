@@ -1,10 +1,31 @@
 'use client'
 import React from 'react'
 import { Button } from '../../../components/ui/button'
-import { Check } from 'lucide-react'
+import { Check, Loader2 } from 'lucide-react'
 import { planData, faqData } from '../../../utils/planData'
+import { useRazorpay } from '../../../hooks/useRazorpay'
+import { useUser } from '@clerk/nextjs'
 
 function UpgradePage() {
+    const { processPayment, loading, error, setError } = useRazorpay()
+    const { user } = useUser()
+
+    const handleUpgrade = async (plan) => {
+        if (plan.id === 'free' || plan.disabled) return
+
+        const userDetails = {
+            name: user?.fullName || '',
+            email: user?.primaryEmailAddress?.emailAddress || '',
+        }
+
+        const planDetails = {
+            id: plan.id,
+            name: plan.name,
+            amount: parseInt(plan.price.replace('₹', ''))
+        }
+
+        await processPayment(planDetails, userDetails)
+    }
     return (
         <div className="py-12">
             <div className="text-center mb-12">
@@ -14,6 +35,19 @@ function UpgradePage() {
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                     Upgrade your interview preparation with AI-powered feedback and advanced features
                 </p>
+                
+                {/* Error Display */}
+                {error && (
+                    <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg max-w-md mx-auto">
+                        <p className="text-red-600 text-sm">{error}</p>
+                        <button 
+                            onClick={() => setError(null)}
+                            className="text-red-600 underline text-sm mt-1"
+                        >
+                            Dismiss
+                        </button>
+                    </div>
+                )}
             </div>
 
             <div className="flex justify-center">
@@ -82,9 +116,17 @@ function UpgradePage() {
                                             ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                                             : ''
                                     }`}
-                                    disabled={plan.disabled}
+                                    disabled={plan.disabled || loading}
+                                    onClick={() => handleUpgrade(plan)}
                                 >
-                                    {plan.buttonText}
+                                    {loading ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                            Processing...
+                                        </>
+                                    ) : (
+                                        plan.buttonText
+                                    )}
                                 </Button>
                             </div>
                         )
