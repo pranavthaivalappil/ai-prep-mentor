@@ -1,22 +1,25 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { db } from '../../../../../utils/db'
-import { MockInterview } from '../../../../../utils/schema'
+import { MockInterview, UserAnswer } from '../../../../../utils/schema'
 import { eq } from 'drizzle-orm'
 import Webcam from 'react-webcam'
 import { WebcamIcon, Lightbulb, Volume2, Mic, MicOff, SkipForward, CheckCircle, AlertCircle } from 'lucide-react'
 import { Button } from '../../../../../components/ui/button'
 import { useRouter } from 'next/navigation'
 import useSpeechToText from 'react-hook-speech-to-text'
+import { useUser } from '@clerk/nextjs'
 
 function StartInterview({params}) {
     const resolvedParams = React.use(params)
+    const { user } = useUser()
     const [interviewDetails, setInterviewDetails] = useState(null)
     const [mockInterviewQuestions, setMockInterviewQuestions] = useState([])
     const [activeQuestionIndex, setActiveQuestionIndex] = useState(0)
     const [userAnswer, setUserAnswer] = useState('')
     const [showAnswer, setShowAnswer] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
+    const [userAnswers, setUserAnswers] = useState([])
     const router = useRouter()
 
     // Speech to text hook with configuration
@@ -54,6 +57,35 @@ function StartInterview({params}) {
         setInterviewDetails(resp[0])
     }
 
+    const SaveUserAnswer = async () => {
+        if (userAnswer?.length > 10) {
+            try {
+                const resp = await db.insert(UserAnswer).values({
+                    mockInterviewIdRef: resolvedParams.interviewId,
+                    question: mockInterviewQuestions[activeQuestionIndex]?.question,
+                    correctAns: '',
+                    userAns: userAnswer,
+                    userEmail: user?.primaryEmailAddress?.emailAddress,
+                    createdAt: new Date()
+                })
+                
+                // Update local state
+                const updatedAnswers = [...userAnswers]
+                updatedAnswers[activeQuestionIndex] = userAnswer
+                setUserAnswers(updatedAnswers)
+                
+                console.log('Answer saved successfully')
+                return true
+            } catch (error) {
+                console.error('Error saving answer:', error)
+                return false
+            }
+        } else {
+            console.log('Answer too short to save')
+            return true
+        }
+    }
+
     const StartStopRecording = async () => {
         if (isRecording) {
             console.log('🛑 Stopping speech recognition...')
@@ -82,7 +114,7 @@ function StartInterview({params}) {
         }
     }
 
-    const EndInterview = () => {
+    const EndInterview = async () => {
         if (isRecording) {
             stopSpeechToText()
         }
@@ -90,6 +122,8 @@ function StartInterview({params}) {
         const confirmEnd = window.confirm("Are you sure you want to end the interview? This will take you to the feedback page.")
         
         if (confirmEnd) {
+            // Save current answer before ending
+            await SaveUserAnswer()
             router.push('/dashboard/interview/' + resolvedParams.interviewId + '/feedback')
         }
     }
@@ -173,7 +207,12 @@ function StartInterview({params}) {
                             <div className='flex gap-3'>
                                 <Button
                                     disabled={activeQuestionIndex === 0}
-                                    onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}
+                                    onClick={async () => {
+                                        await SaveUserAnswer()
+                                        setActiveQuestionIndex(activeQuestionIndex - 1)
+                                        setUserAnswer('')
+                                        setResults([])
+                                    }}
                                     variant="outline"
                                     className='flex-1'
                                 >
@@ -182,7 +221,12 @@ function StartInterview({params}) {
                                 
                                 <Button
                                     disabled={activeQuestionIndex === mockInterviewQuestions?.length - 1}
-                                    onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}
+                                    onClick={async () => {
+                                        await SaveUserAnswer()
+                                        setActiveQuestionIndex(activeQuestionIndex + 1)
+                                        setUserAnswer('')
+                                        setResults([])
+                                    }}
                                     className='flex-1'
                                 >
                                     <SkipForward className='w-4 h-4 mr-2' />
@@ -265,6 +309,17 @@ function StartInterview({params}) {
                                             </>
                                         )}
                                     </Button>
+
+                                    {/* Save Answer Button */}
+                                    {userAnswer && userAnswer.length > 10 && (
+                                        <Button
+                                            onClick={SaveUserAnswer}
+                                            variant="outline"
+                                            className='w-full h-10 text-sm font-medium bg-green-50 border-green-200 text-green-800 hover:bg-green-100'
+                                        >
+                                            Save Answer
+                                        </Button>
+                                    )}
 
                                     {/* Show User Answer Button */}
                                     {userAnswer && !isRecording && (
