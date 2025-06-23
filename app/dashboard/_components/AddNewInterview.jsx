@@ -89,9 +89,12 @@ function AddNewInterview() {
     <div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <div className='p-10 border-2 border-gray-200 rounded-lg flex flex-col items-center justify-center hover:scale-105 hover:shadow-md cursor-pointer transition-all bg-gray-50 hover:bg-gray-100'>
-            <h2 className='text-lg text-center font-bold text-gray-800'>+ Add New Interview</h2>
-            <p className='text-gray-500 text-center mt-2'>Create a new AI mock interview</p>
+          <div className='p-8 border rounded-lg flex flex-col items-center justify-center hover:shadow-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all relative'>
+            <div className='absolute top-2 right-2 bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium'>
+              ✨ AI Powered
+            </div>
+            <h2 className='text-lg font-bold text-gray-800 mb-2'>+ Add New Interview</h2>
+            <p className='text-gray-600 text-center text-sm'>Create a new AI mock interview</p>
           </div>
         </DialogTrigger>
         
