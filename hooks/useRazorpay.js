@@ -53,7 +53,7 @@ export const useRazorpay = () => {
         key: orderData.key,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: 'AI Interview Mocker',
+        name: 'PrepMentor',
         description: `${planData.name} Plan Subscription`,
         image: '/logo.svg',
         order_id: orderData.orderId,
