@@ -354,7 +354,7 @@ export default function Home() {
             </Button>
           </Link>
           <Link href="/sign-in">
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
+            <Button size="lg" variant="outline">
               Sign In
             </Button>
           </Link>
