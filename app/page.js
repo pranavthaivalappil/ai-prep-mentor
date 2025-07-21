@@ -149,6 +149,13 @@ export default function Home() {
               <span>AI-Powered</span>
             </div>
           </div>
+          
+          {/* Made with Love */}
+          <div className="mt-12 pt-8 border-t border-white/20">
+            <p className="text-blue-100 text-sm">
+              Made with ❤️ by <span className="font-semibold text-white">Pranav</span>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -351,13 +358,6 @@ export default function Home() {
               Sign In
             </Button>
           </Link>
-          
-          {/* Made with Love */}
-          <div className="mt-12 pt-8 border-t border-blue-500/30">
-            <p className="text-blue-100 text-sm">
-              Made with ❤️ by <span className="font-semibold text-white">Pranav</span>
-            </p>
-          </div>
         </div>
       </section>
 
