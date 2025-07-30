@@ -98,12 +98,12 @@ export default function Home() {
                 </Link>
               ) : (
                 <>
-                  <Link href="/sign-in">
-                    <Button variant="outline">Sign In</Button>
-                  </Link>
-                  <Link href="/sign-up">
-                    <Button>Get Started</Button>
-                  </Link>
+              <Link href="/sign-in">
+                <Button variant="outline">Sign In</Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button>Get Started</Button>
+              </Link>
                 </>
               )}
             </div>
@@ -282,28 +282,21 @@ export default function Home() {
               
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Unlimited Mock Interviews</span>
+                  <Check className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-500 italic">Unlimited Mock Interviews - To be implemented in future</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Advanced AI feedback with detailed analysis</span>
+                  <Check className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-500 italic">Advanced AI feedback with detailed analysis - To be implemented in future</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Up to 15 Questions per interview</span>
+                  <Check className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-500 italic">Up to 15 Questions per interview - To be implemented in future</span>
                 </li>
+
                 <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Custom job descriptions</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Interview history & analytics</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Priority email support</span>
+                  <Check className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-500 italic">Priority email support - To be implemented in future</span>
                 </li>
               </ul>
               
@@ -393,7 +386,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 PrepMentor. All rights reserved.</p>
+            <p>&copy; 2025 PrepMentor. All rights reserved.</p>
           </div>
         </div>
       </footer>
