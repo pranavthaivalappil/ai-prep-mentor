@@ -300,7 +300,7 @@ export default function Home() {
                 </li>
               </ul>
               
-              <Link href="/sign-up">
+              <Link href="/dashboard/upgrade">
                 <Button className="w-full py-3 text-lg bg-blue-600 hover:bg-blue-700">
                   Upgrade to Pro
                 </Button>
