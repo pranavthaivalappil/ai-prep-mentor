@@ -1,6 +1,7 @@
 # 🎓 AI Mock Interview - MERN Stack
 
-> **Complete MERN Stack Application for AI-Powered Interview Preparation**
+> **Complete MERN Stack Application for AI-Powered Interview Preparation**  
+> *Migrated from Next.js to MERN Stack*
 
 **Made with ❤️ by Pranav**
 
@@ -84,9 +85,9 @@ mern-ai-interview-mocker/
 ### Installation
 
 ```bash
-# Clone the repository (if you have it in Git)
-git clone <your-repo-url>
-cd mern-ai-interview-mocker
+# Clone the repository
+git clone https://github.com/pranavthaivalappil/ai-prep-mentor.git
+cd ai-prep-mentor
 
 # Install backend dependencies
 cd backend
@@ -381,7 +382,7 @@ ISC License - Feel free to use for learning purposes
 **Pranav**
 - Portfolio: [Your Portfolio URL]
 - LinkedIn: [Your LinkedIn]
-- GitHub: [Your GitHub]
+- GitHub: [@pranavthaivalappil](https://github.com/pranavthaivalappil)
 - Email: [Your Email]
 
 ---
@@ -457,18 +458,20 @@ If you found this project helpful:
 
 ## 📝 Changelog
 
-### Version 1.0.0 (December 2025)
-- ✅ Initial release
-- ✅ Complete MERN stack implementation
-- ✅ AI-powered interview system
-- ✅ Authentication and authorization
-- ✅ Payment integration
-- ✅ Responsive UI
-- ✅ Full documentation
+### Version 2.0.0 (December 2025) - MERN Migration
+- ✅ Migrated from Next.js to MERN Stack
+- ✅ Separate backend and frontend architecture
+- ✅ MongoDB database integration
+- ✅ Express.js REST API
+- ✅ React + Vite frontend
+- ✅ Enhanced documentation
+
+### Version 1.0.0 (Previous)
+- ✅ Next.js implementation
+- ✅ Basic interview functionality
 
 ---
 
 **🎉 Thank you for using AI Mock Interview!**
 
 **Made with ❤️ and lots of ☕**
-
